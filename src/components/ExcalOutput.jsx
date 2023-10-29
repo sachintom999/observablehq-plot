@@ -1,53 +1,69 @@
-import { Excalidraw, exportToCanvas } from "@excalidraw/excalidraw"
+import { Excalidraw, exportToSvg } from "@excalidraw/excalidraw"
 import { useState } from "react"
 
 export default function ExcalOutput() {
-    const [canvasUrl, setCanvasUrl] = useState("")
+    const [svgContent, setSvgContent] = useState("") // Store the SVG content as a string
     const [excalidrawAPI, setExcalidrawAPI] = useState(null)
     const initialData = {}
 
+    const clickHandler = async () => {
+        if (!excalidrawAPI) {
+            return
+        }
+        const elements = excalidrawAPI.getSceneElements()
+
+        if (!elements || !elements.length) {
+            return
+        }
+
+        const svgElement = await exportToSvg({
+            elements,
+            appState: {
+                ...initialData.appState,
+                exportWithDarkMode: false,
+            },
+            exportPadding: 10, // You can adjust the export padding as needed
+            metadata: "Your metadata here", // You can add metadata if necessary
+            files: excalidrawAPI.getFiles(),
+        })
+
+        // Serialize the SVG element to a string
+        const svgString = new XMLSerializer().serializeToString(svgElement)
+
+        setSvgContent(svgString)
+    }
+
     return (
         <>
-            <button
-                className="custom-button"
-                onClick={async () => {
-                    if (!excalidrawAPI) {
-                        return
-                    }
-                    const elements = excalidrawAPI.getSceneElements()
-
-                    console.log(elements)
-                    if (!elements || !elements.length) {
-                        return
-                    }
-                    const canvas = await exportToCanvas({
-                        elements,
-                        appState: {
-                            ...initialData.appState,
-                            exportWithDarkMode: false,
-                        },
-                        files: excalidrawAPI.getFiles(),
-                        getDimensions: () => {
-                            return { width: 350, height: 350 }
-                        },
-                    })
-                    const ctx = canvas.getContext("2d")
-                    // ctx.font = "30px Virgil"
-                    // ctx.strokeText("My custom text", 50, 60)
-                    setCanvasUrl(canvas.toDataURL())
-                }}
-            >
-                Export to Canvas
-            </button>
-
-            <div style={{ height: "400px" }}>
+            <div style={{ height: "400px", border: "1px solid gray" }}>
                 <Excalidraw ref={api => setExcalidrawAPI(api)} />
             </div>
 
+            <button
+                className="custom-button"
+                style={{
+                    margin: "24px",
+                    padding: "6px",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                }}
+                onClick={clickHandler}
+            >
+                Export to SVG
+            </button>
+
             <h3>Output</h3>
 
-            <div className="export export-canvas"  style={{ height: "400px" ,width:"600px" }}>
-                <img src={canvasUrl} alt="" />
+            <div
+                className="export export-svg"
+                style={{
+                    height: "400px",
+                    width: "600px",
+                    border: "1px solid gray",
+                }}
+            >
+                {/* Render the SVG string directly */}
+                <div dangerouslySetInnerHTML={{ __html: svgContent }} />
             </div>
         </>
     )
