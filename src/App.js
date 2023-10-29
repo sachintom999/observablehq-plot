@@ -1,10 +1,10 @@
-import PlotGeo from "./PlotGeo.js"
+import ExcalOutput from "./components/ExcalOutput.jsx"
 import "./styles.css"
 
 export default function App() {
     return (
         <div className="App">
-            <PlotGeo />
+            <ExcalOutput />
         </div>
     )
 }

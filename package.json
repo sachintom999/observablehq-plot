@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@excalidraw/excalidraw": "^0.16.1",
     "@observablehq/plot": "0.6.10",
     "loader-utils": "3.2.1",
     "react": "18.2.0",
