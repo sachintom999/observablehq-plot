@@ -115,6 +115,7 @@ class Element {
     return Style.empty;
   }
   toHyperScript() {
+    console.log(this.tagName,this.attributes,this.children);
     return h(
       this.tagName,
       this.attributes,
