@@ -1,0 +1,22 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 3034,
+                "type": "wall",
+                "name": null,
+                "roomnumber": null
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                       [0,0], [200,0],[230,230],[0,0]
+                    ]
+                ]
+            }
+        }
+    ]
+}

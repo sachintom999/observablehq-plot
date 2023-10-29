@@ -1,6 +1,6 @@
 import * as Plot from "@observablehq/plot"
 import { createElement as h } from "react"
-import westport from "./data/westport-orig.json" 
+import westport from "./data/westport-02.json" 
 
 // For client-side rendering, see https://codesandbox.io/s/plot-react-csr-p4cr7t?file=/src/PlotFigure.jsx
 // Based on https://github.com/observablehq/plot/blob/main/docs/components/PlotRender.js
